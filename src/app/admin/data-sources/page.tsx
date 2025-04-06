@@ -118,10 +118,14 @@ export default function DataSources() {
 
   // Auth check
   useEffect(() => {
+    // Check authentication
     const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
     const userRole = localStorage.getItem("userRole");
     
-    if (!isAuthenticated || userRole !== "admin") {
+    // Check for both "Admin" (from database) and "admin" (legacy format) for backward compatibility
+    const isAdminUser = userRole === "Admin" || userRole === "admin";
+    
+    if (!isAuthenticated || !isAdminUser) {
       router.push("/auth/login");
     }
   }, [router]);

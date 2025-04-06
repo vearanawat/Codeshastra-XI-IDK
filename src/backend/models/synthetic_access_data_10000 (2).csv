@@ -1,0 +1,6 @@
+user_id,user_role,department,employee_status,resource_type,resource_sensitivity,action,request_reason,location,device_type,region,encryption_required,ip_address,timestamp,employee_join_date,last_security_training,time_in_position,is_approved,request_id
+1001,Admin,IT,Active,Database,High,Read,Job requirement,Office,Desktop,US,Yes,192.168.1.1,2023-01-01 08:00:00,2020-05-15,2022-12-01,3 years,True,REQ001
+1002,User,HR,Active,Document,Medium,Write,Analysis,Remote,Laptop,EU,No,10.0.0.1,2023-01-02 09:30:00,2021-02-10,2022-10-15,1 year,True,REQ002
+1003,User,Finance,Active,Application,Low,Execute,Training,Office,Mobile,APAC,Yes,invalid_ip,2023-01-03 14:15:00,2022-07-20,,6 months,False,REQ003
+1004,User,Marketing,Contractor,Document,Medium,Read,Report,Remote,Laptop,US,No,172.16.0.1,2023-01-04 11:45:00,2022-11-30,2022-11-01,2 months,True,REQ004
+1005,Admin,IT,Active,Database,High,Delete,Maintenance,Office,Desktop,EU,Yes,192.168.1.2,2023-01-05 16:20:00,2019-03-22,2022-09-30,4 years,True,REQ005

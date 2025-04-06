@@ -76,7 +76,10 @@ export default function AdminDashboard() {
     const userRole = localStorage.getItem("userRole");
     const email = localStorage.getItem("userEmail");
     
-    if (!isAuthenticated || userRole !== "admin") {
+    // Check for both "Admin" (from database) and "admin" (legacy format) for backward compatibility
+    const isAdminUser = userRole === "Admin" || userRole === "admin";
+    
+    if (!isAuthenticated || !isAdminUser) {
       router.push("/auth/login");
       return;
     }
@@ -157,12 +160,36 @@ export default function AdminDashboard() {
           
           {/* Welcome Banner */}
           <motion.div 
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-lg p-6 text-white relative overflow-hidden mb-6"
+            className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-xl shadow-lg p-6 text-white relative overflow-hidden mb-6"
             variants={itemVariants}
           >
+            <div className="absolute right-0 top-0 h-full">
+              <motion.div 
+                animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
+                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                className="w-24 h-24 relative mt-6 mr-6 hidden md:block"
+              >
+                {/* Animated penguin */}
+                <div className="absolute bottom-0 w-24 h-24 bg-gray-900 rounded-full"></div>
+                <div className="absolute bottom-8 left-3 w-18 h-18 bg-white rounded-full transform -rotate-12"></div>
+                <div className="absolute bottom-14 left-7 w-3 h-3 bg-black rounded-full z-10"></div>
+                <div className="absolute bottom-14 left-14 w-3 h-3 bg-black rounded-full z-10"></div>
+                <div className="absolute bottom-12 left-10 w-4 h-2 bg-yellow-500 rounded-b transform rotate-12"></div>
+                <motion.div 
+                  className="absolute bottom-8 left-0 w-6 h-10 bg-gray-900 rounded-l-full transform -rotate-12"
+                  animate={{ rotate: [-20, -5, -20] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                ></motion.div>
+                <motion.div 
+                  className="absolute bottom-8 right-0 w-6 h-10 bg-gray-900 rounded-r-full transform rotate-12"
+                  animate={{ rotate: [20, 5, 20] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                ></motion.div>
+              </motion.div>
+            </div>
             <div className="relative z-10">
               <h2 className="text-2xl font-bold mb-2">{greeting}, {adminEmail?.split('@')[0] || 'Admin'}</h2>
-              <p className="text-blue-100">Welcome to your admin control center</p>
+              <p className="text-blue-50">Welcome to your admin control center</p>
               <div className="mt-4 flex flex-wrap gap-4">
                 <motion.button 
                   className="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-sm font-medium hover:bg-opacity-30 transition-colors flex items-center"
@@ -187,7 +214,7 @@ export default function AdminDashboard() {
                 </motion.button>
                 <Link href="/auth/logout">
                   <motion.button 
-                    className="px-4 py-2 bg-red-500 bg-opacity-20 rounded-lg text-sm font-medium hover:bg-opacity-30 transition-colors flex items-center"
+                    className="flex items-center px-4 py-2 bg-white bg-opacity-20 rounded-lg text-sm font-medium hover:bg-opacity-30 transition-colors"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -200,8 +227,8 @@ export default function AdminDashboard() {
               </div>
             </div>
             
-            <div className="absolute -bottom-4 -left-4 w-64 h-64 bg-blue-500 rounded-full opacity-20"></div>
-            <div className="absolute -top-12 -right-12 w-64 h-64 bg-indigo-500 rounded-full opacity-20"></div>
+            <div className="absolute -bottom-4 -left-4 w-64 h-64 bg-blue-300 rounded-full opacity-20"></div>
+            <div className="absolute -top-12 -right-12 w-64 h-64 bg-blue-300 rounded-full opacity-20"></div>
           </motion.div>
           
           {/* Statistics Cards */}

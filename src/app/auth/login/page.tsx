@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { signIn } from "@/backend/services/authService";
 
 export default function LoginPage() {
   const [userId, setUserId] = useState("");
@@ -40,26 +41,19 @@ export default function LoginPage() {
     setError("");
     
     try {
-      // In a real app, this would be connected to an authentication service
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Simple role determination based on user ID format
-      // In a real app, this would validate against a database
-      const isAdmin = userId.startsWith("ADM");
-      
-      if (!userId || userId.length < 5) {
-        throw new Error("Invalid user ID format");
-      }
+      // Use the Supabase authentication service
+      const authResult = await signIn(userId, password);
       
       // Set authentication state in localStorage for demo purposes
-      // In a real app, you would use secure cookies and/or JWT tokens
       localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("userRole", isAdmin ? "admin" : "employee");
-      localStorage.setItem("userId", userId);
-      localStorage.setItem("userEmail", userId + "@example.com"); // Adding a mock email for UI display
+      localStorage.setItem("userRole", authResult.userRole);
+      localStorage.setItem("userId", authResult.userId);
+      localStorage.setItem("userEmail", authResult.userEmail);
+      localStorage.setItem("department", authResult.department || '');
+      localStorage.setItem("employeeStatus", authResult.employeeStatus || '');
       
       // Role-based redirection with full page refresh
-      if (isAdmin) {
+      if (authResult.isAdmin) {
         window.location.href = '/admin/dashboard';
       } else {
         window.location.href = '/employee/dashboard';
@@ -470,9 +464,10 @@ export default function LoginPage() {
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               variants={itemVariants}
             >
-              <p className="font-semibold">Demo instructions:</p>
-              <p>Use "ADM12345" for admin access</p>
-              <p>Use any other user ID for employee access</p>
+              <p className="font-semibold">Login Instructions:</p>
+              <p>Enter a valid User ID from the database</p>
+              <p>Any password will work (for this demo)</p>
+              <p>Admin users will be redirected to admin dashboard</p>
             </motion.div>
           </motion.form>
         </motion.div>

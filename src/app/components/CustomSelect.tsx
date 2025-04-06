@@ -11,10 +11,11 @@ interface Option {
 interface CustomSelectProps {
   id: string;
   name: string;
-  label: string;
+  label?: string;
   options: Option[];
   value: string;
   onChange: (value: string) => void;
+  className?: string;
 }
 
 export default function CustomSelect({
@@ -23,7 +24,8 @@ export default function CustomSelect({
   label,
   options,
   value,
-  onChange
+  onChange,
+  className = ""
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState("");
@@ -50,10 +52,12 @@ export default function CustomSelect({
   }, [value, options]);
   
   return (
-    <div className="relative" ref={selectRef}>
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
-        {label}
-      </label>
+    <div className={`relative ${className}`} ref={selectRef}>
+      {label && (
+        <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
+          {label}
+        </label>
+      )}
       
       <button
         type="button"
