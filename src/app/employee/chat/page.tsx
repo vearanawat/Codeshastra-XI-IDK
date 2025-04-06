@@ -236,7 +236,7 @@ export default function ChatPage() {
     
     // Standard flow if no direct user ID
     if (email) {
-      setUserEmail(email);
+    setUserEmail(email);
       setIsLoading(true);
       
       // Fetch user info from Supabase
@@ -725,9 +725,9 @@ export default function ChatPage() {
                 </motion.button>
               )}
               <div className="flex flex-col">
-                <div className="flex items-center">
-                  <h2 className="text-lg font-semibold text-gray-900">{activeConversation.title}</h2>
-                  <span className="ml-2 text-xs text-gray-500 font-normal">Last updated {activeConversation.date.toLowerCase()}</span>
+              <div className="flex items-center">
+                <h2 className="text-lg font-semibold text-gray-900">{activeConversation.title}</h2>
+                <span className="ml-2 text-xs text-gray-500 font-normal">Last updated {activeConversation.date.toLowerCase()}</span>
                 </div>
                 
                 {/* User ID and Department from Supabase */}
